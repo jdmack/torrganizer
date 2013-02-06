@@ -11,3 +11,6 @@ all: $(SOURCE)
 clean:
 	rm *.class
 
+files:
+	rm -rf files/*
+	./createFiles.sh

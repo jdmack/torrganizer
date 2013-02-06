@@ -25,9 +25,9 @@ public class TShow extends TFile
     //      Constructors
     //===============================================================
 
-    public TShow(String name, String extension, int season, int episode, title)
+    public TShow(File file, String name, String extension, int season, int episode, String title)
     {
-        super(name, extension);
+        super(file, name, extension);
 
         seasonNumber  = season;
         episodeNumber = episode;

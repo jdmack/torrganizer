@@ -17,6 +17,7 @@ public class TFile
     //===============================================================
     //      Instance Variables
     //===============================================================
+    private File   file;
     private String fileName;
     private String fileExtension;
 
@@ -24,15 +25,49 @@ public class TFile
     //      Constructors
     //===============================================================
 
-    public TFile(String name, String extension)
+    public TFile(File file, String name, String extension)
     {
+        this.file          = file;
         fileName      = name;
         fileExtension = extension;
     }
 
     //===============================================================
+    //      Methods
+    //===============================================================
+    
+    public void moveFile(String path)
+    {
+
+    }
+
+    public boolean renameFile(String name)
+    {
+        setFileName(name);
+        
+        File renameFile = new File(name);
+        return file.renameTo(renameFile);
+    }
+
+
+
+    //===============================================================
     //      getters / setters
     //===============================================================
+
+    //=================================
+    //      file
+    //=================================
+
+    public String getFile()
+    {
+        return file;
+    }
+
+    public void setFile(File file)
+    {
+        this.file = file;
+    }
 
     //=================================
     //      fileName
