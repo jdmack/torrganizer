@@ -15,6 +15,7 @@ debug: $(COURSE)
 clean:
 	rm *.class
 
-files:
+files: $(SOURCE)
 	rm -rf files/*
+	rm -rf Sort/*
 	./createFiles.sh
