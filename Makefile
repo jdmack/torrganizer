@@ -2,7 +2,8 @@
 SOURCE = Torrganizer.java \
 	TFile.java \
 	MovieFile.java \
-	ShowFile.java
+	ShowFile.java \
+	CLInterface.java
 
 all: $(SOURCE)
 	-@echo Building Torrganizer...
