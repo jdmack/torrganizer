@@ -30,13 +30,14 @@ public class Torrganizer
     //===============================================================
 
     // Directories
-    private static final String DOWNLOAD_PATH = "/home/james/Torrganizer/files";
-    private static final String SORT_PATH     = "/home/james/Torrganizer/Sort";
+    private static String DOWNLOAD_PATH = "/home/james/Torrganizer/files";
+    private static String SORT_PATH     = "/home/james/Torrganizer/Sort";
 
     // Regex
-    private static final String REGEX_SHOW1 = "([a-zA-Z0-9\\.\\ ]+)S(\\d\\d)E(\\d\\d).*\\.(mp4|mpeg4|mp3|avi|mkv|wmv)";
-    private static final String REGEX_SHOW2 = "([a-zA-Z0-9\\.\\ ]+)(\\d\\d\\d).*\\.(mp4|mpeg4|avi|mkv)";
-    private static final String REGEX_MOVIE = "([a-zA-Z0-9\\.\\ ]+).*[\\(|\\]]?(19|20\\d\\d)[\\(|\\]]?.*\\.(mp4|mpeg4|avi|mkv)";
+    private static final String REGEX_EXTENSION = ".*\\.([a-zA-Z0-9]{3,4})$";
+    private static final String REGEX_SHOW1     = "([a-zA-Z0-9\\.\\ ]+)S(\\d\\d)E(\\d\\d).*\\.(mp4|mpeg4|avi|mkv|wmv|mov)";
+    private static final String REGEX_SHOW2     = "([a-zA-Z0-9\\.\\ ]+)(\\d\\d\\d).*\\.(mp4|mpeg4|avi|mkv|wmv|mov)";
+    private static final String REGEX_MOVIE     = "([a-zA-Z0-9\\.\\ ]+).*[\\(|\\]]?(19|20\\d\\d)[\\(|\\]]?.*\\.(mp4|mpeg4|avi|mkv|wmv|mov)";
 
 
     //===============================================================
@@ -45,41 +46,81 @@ public class Torrganizer
 
     public static void main(String [] args)
     {
-        File homeDir = new File(DOWNLOAD_PATH);
-        //String [] fileStrings = homeDir.list();
+        Scanner input = new Scanner(System.in);
 
-        File [] files = homeDir.listFiles();
+        System.out.println("Torrganizer\n");
+
+        String inputStr;
+        System.out.print("Enter download directory: ");
+        inputStr  = input.nextLine();
+        if(!inputStr.equals(""))
+            DOWNLOAD_PATH = inputStr;
+        System.out.println("Download directory set to '" + DOWNLOAD_PATH + "'");
+
+        System.out.print("Enter destination directory: ");
+        inputStr  = input.nextLine();
+        if(!inputStr.equals(""))
+            SORT_PATH = inputStr;
+        System.out.println("Destination directory set to '" + SORT_PATH + "'");
+
+        File homeDir = new File(DOWNLOAD_PATH);
+
+        Vector<TFile> allFiles = new Vector<TFile>();
+
+        allFiles = processDirectory(homeDir);
+
+    }
+
+    public static Vector<TFile> processDirectory(File thisDir)
+    {
+        Scanner input = new Scanner(System.in);
+        System.out.println("\nProcessing directory: " + thisDir.getName());
+
+        File [] files = thisDir.listFiles();
+
         if(files.length <= 0) {
-            System.out.println("Target Directory empty: " + DOWNLOAD_PATH);
-            System.exit(0);
+            System.out.println("Directory empty: " + thisDir.getName());
+            return new Vector<TFile>();
+        }
+        else {
+            System.out.print("Proceed with directory (y/n)? ");
+
+            if(!input.nextLine().startsWith("y")) {
+                System.out.println("Skipping directory");
+                return new Vector<TFile>();
+            }
+
         }
 
         Vector<TFile> allFiles = new Vector<TFile>();
 
         for(File thisFile: files) {
-            allFiles.addElement(processFile(thisFile));
+            allFiles.addAll(processFile(thisFile));
         }
 
-        for(TFile thisFile: allFiles) {
-            System.out.println("new file: " + thisFile.getFileName());
-        }
-
-        //printFiles(filePaths, 0);
+        return allFiles;
     }
+
 
     //===============================================================
     //      processFile
     //===============================================================
 
-    private static TFile processFile(File thisFile)
+    private static Vector<TFile> processFile(File thisFile)
     {
-        System.out.println("Processing file: " + thisFile.getName());
-
+        System.out.println("\nProcessing file: " + thisFile.getName());
 
         Scanner input = new Scanner(System.in);
 
+        // if directory, enter directory
+        if(thisFile.isDirectory()) {
+            return processDirectory(thisFile);
+        }
+
         // match and create TFile representation   
         TFile thisTFile = matchFile(thisFile);
+        if(thisTFile == null)
+            return new Vector<TFile>();
 
         // rename and move file
         String newPath = SORT_PATH;
@@ -89,7 +130,6 @@ public class Torrganizer
             newPath = newPath + "/TV/" + ((ShowFile) thisTFile).getShowTitle() + "/" + ((ShowFile) thisTFile).getShowTitle() + " - Season " + ((ShowFile) thisTFile).getSeasonNum();
             newAbsoluteName = newPath + "/" + thisTFile.getFileName();
         }
-
 
         else if(thisTFile.isMovie()) {
             newPath = newPath + "/Movies";
@@ -134,9 +174,10 @@ public class Torrganizer
         else
             System.out.println("Error renaming or moving file");
     
-        System.out.println();
+        Vector<TFile> returnVector = new Vector<TFile>();
+        returnVector.addElement(thisTFile);
 
-        return thisTFile;
+        return returnVector;
     }    
 
     //===============================================================
@@ -145,6 +186,9 @@ public class Torrganizer
 
     private static TFile matchFile(File thisFile)
     {
+        Pattern extensionPattern = Pattern.compile(REGEX_EXTENSION);
+        Matcher extensionMatcher = extensionPattern.matcher(thisFile.getName());
+
         Pattern show1Pattern = Pattern.compile(REGEX_SHOW1);
         Matcher show1Matcher = show1Pattern.matcher(thisFile.getName());
 
@@ -154,7 +198,7 @@ public class Torrganizer
         Pattern moviePattern = Pattern.compile(REGEX_MOVIE);
         Matcher movieMatcher = moviePattern.matcher(thisFile.getName());
 
-        TFile newFile;
+        TFile newFile = null;
     
         // Show1
         if(show1Matcher.matches()) {
@@ -173,7 +217,7 @@ public class Torrganizer
         }
 
         // Show1
-        else if(show1Matcher.matches()) {
+        else if(show2Matcher.matches()) {
 
             String title = show1Matcher.group(1).replace(".", " ");
             title = title.replace("  ", " ");
@@ -204,46 +248,72 @@ public class Torrganizer
             newFile = new MovieFile(thisFile, name, extension, year);
         }
 
-        else {
-
-            System.out.println("Unable to match file: " + thisFile.getName());
+        else if(extensionMatcher.matches()) {
+            String extension = extensionMatcher.group(1);
+            System.out.println("Unable to match file, found extension '" + extension + "'");
 
             Scanner input = new Scanner(System.in);
 
-            System.out.print("Enter the extension: ");
-            String extension = input.nextLine();
+            System.out.println("Select option: ");
+            System.out.println("(1) Process as Movie");
+            System.out.println("(2) Process as Show");
+            System.out.println("(3) Process Manually");
+            System.out.println("(4) Skip");
+            int choice;
 
-            System.out.print("Is this (1) show or (2) movie? ");
-            String choice = input.nextLine();
+            do {
+                System.out.print("Selection? ");
+                choice = input.nextInt();
+            } while((choice != 1) && (choice != 2) && (choice != 3) &&  (choice != 4));
 
-            if(choice.equals("1")) {
+            String title, name;
 
-                System.out.print("Enter show title: ");
-                String title = input.nextLine();
+            switch(choice) {
+                case 1:
+                    System.out.print("Enter show title: ");
+                    title = input.nextLine();
 
-                System.out.print("Enter the season: ");
-                int season = input.nextInt();
+                    System.out.print("Enter the season: ");
+                    int season = input.nextInt();
 
-                System.out.print("Enter the episode: ");
-                int episode = input.nextInt();
+                    System.out.print("Enter the episode: ");
+                    int episode = input.nextInt();
 
-                String name = title + " - S" + String.format("%02d", season) + "E" + String.format("%02d", episode) + "." + extension;
+                    name = title + " - S" + String.format("%02d", season) + "E" + String.format("%02d", episode) + "." + extension;
 
-                newFile = new ShowFile(thisFile, name, extension, season, episode, title);
-                
+                    newFile = new ShowFile(thisFile, name, extension, season, episode, title);
+                    break;
+
+                case 2:
+                    System.out.print("Enter movie title: ");
+                    title = input.nextLine();
+
+                    System.out.print("Enter the year: ");
+                    int year = input.nextInt();
+
+                    name = title + " (" + String.format("%4d", year) + ")." + extension;
+
+                    newFile = new MovieFile(thisFile, name, extension, year);
+                    break;
+
+                case 3:
+                    System.out.print("Enter file name: ");
+                    name = input.nextLine();
+
+                    newFile = new TFile(thisFile, name, extension);
+                    break;
+
+                case 4:
+                    System.out.println("Skipping file");
+                    return null;
+
+                default:
             }
-            else {
+        }
 
-                System.out.print("Enter movie title: ");
-                String title = input.nextLine();
-
-                System.out.print("Enter the year: ");
-                int year = input.nextInt();
-
-                String name = title + " (" + String.format("%4d", year) + ")." + extension;
-
-                newFile = new MovieFile(thisFile, name, extension, year);
-            }
+        else {
+            System.out.println("Error: Unable to process file\n");
+            return null;
         }
 
         return newFile;
