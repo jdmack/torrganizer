@@ -5,6 +5,7 @@
 //===============================
 // Imports
 //===============================
+import java.io.File;
 
 
 public class TFile
@@ -59,7 +60,7 @@ public class TFile
     //      file
     //=================================
 
-    public String getFile()
+    public File getFile()
     {
         return file;
     }
@@ -73,12 +74,12 @@ public class TFile
     //      fileName
     //=================================
 
-    public String getName()
+    public String getFileName()
     {
         return fileName;
     }
 
-    public void setName(String name)
+    public void setFileName(String name)
     {
         fileName = name;
     }
