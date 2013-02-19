@@ -5,6 +5,7 @@
 //===============================
 // Imports
 //===============================
+import java.io.File;
 
 
 public class MovieFile extends TFile
@@ -23,9 +24,9 @@ public class MovieFile extends TFile
     //      Constructors
     //===============================================================
 
-    public MovieFile(String name, String extension, int year)
+    public MovieFile(File file, String name, String extension, int year)
     {
-        super(name, extension);
+        super(file, name, extension);
 
         releaseYear = year;
     }
