@@ -1,13 +1,13 @@
 //=============================================================================
-// TShow.java
+// ShowFile.java
 //=============================================================================
 
 //===============================
 // Imports
 //===============================
+import java.io.File;
 
-
-public class TShow extends TFile
+public class ShowFile extends TFile
 {
     //===============================================================
     //      Constants
@@ -19,13 +19,13 @@ public class TShow extends TFile
     //===============================================================
     private int    seasonNumber;
     private int    episodeNumber;
-    private String showTitle
+    private String showTitle;
 
     //===============================================================
     //      Constructors
     //===============================================================
 
-    public TShow(File file, String name, String extension, int season, int episode, String title)
+    public ShowFile(File file, String name, String extension, int season, int episode, String title)
     {
         super(file, name, extension);
 
@@ -56,9 +56,9 @@ public class TShow extends TFile
     //      episodeNumber
     //=================================
 
-    public String getEpisodeNum()
+    public int getEpisodeNum()
     {
-        return fileName;
+        return episodeNumber;
     }
 
 
