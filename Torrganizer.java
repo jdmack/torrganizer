@@ -29,16 +29,22 @@ public class Torrganizer
     //      Constants
     //===============================================================
 
+    private static boolean DEBUG = true;
+    
     // Directories
     private static String DOWNLOAD_PATH = "/home/james/Torrganizer/files";
     private static String SORT_PATH     = "/home/james/Torrganizer/Sort";
 
     // Regex
-    private static final String REGEX_EXTENSION = ".*\\.([a-zA-Z0-9]{3,4})$";
-    private static final String REGEX_SHOW1     = "([a-zA-Z0-9\\.\\ ]+)S(\\d\\d)E(\\d\\d).*\\.(mp4|mpeg4|avi|mkv|wmv|mov)";
-    private static final String REGEX_SHOW2     = "([a-zA-Z0-9\\.\\ ]+)(\\d\\d\\d).*\\.(mp4|mpeg4|avi|mkv|wmv|mov)";
-    private static final String REGEX_MOVIE     = "([a-zA-Z0-9\\.\\ ]+).*[\\(|\\]]?(19|20\\d\\d)[\\(|\\]]?.*\\.(mp4|mpeg4|avi|mkv|wmv|mov)";
-    private static final int    REGEX_MASK      = 0b10000000;
+    private static final String REGEX_EXTENSION = "(?i).*\\.([a-zA-Z0-9]{3,4})$";
+    private static final String REGEX_SHOW1     = "(?i)([a-zA-Z0-9\\.\\ ]+)S(\\d\\d)E(\\d\\d).*\\.(mp4|mpeg4|avi|mkv|wmv|mov)";
+    private static final String REGEX_SHOW2     = "(?i)([a-zA-Z0-9\\.\\ ]+)(\\d\\d\\d).*\\.(mp4|mpeg4|avi|mkv|wmv|mov)";
+    private static final String REGEX_MOVIE     = "(?i)([a-zA-Z0-9\\.\\ ]+).*[\\(|\\]]?(19|20\\d\\d)[\\(|\\]]?.*\\.(mp4|mpeg4|avi|mkv|wmv|mov)";
+
+    /*
+        ([a-zA-Z0-9\.\ ]+)S(\d\d)E(\d\d).*\.(mp4|mpeg4|avi|mkv|wmv|mov)
+        ([a-zA-Z0-9\.\ ]+)(\d\d\d).*\.(mp4|mpeg4|avi|mkv|wmv|mov)
+    */
 
     //===============================================================
     //      Globals
@@ -175,23 +181,22 @@ public class Torrganizer
 
     private static TFile matchFile(File thisFile)
     {
-        Pattern extensionPattern = Pattern.compile(REGEX_EXTENSION, REGEX_MASK);
+        Pattern extensionPattern = Pattern.compile(REGEX_EXTENSION);
         Matcher extensionMatcher = extensionPattern.matcher(thisFile.getName());
 
-        Pattern show1Pattern = Pattern.compile(REGEX_SHOW1, REGEX_MASK);
+        Pattern show1Pattern = Pattern.compile(REGEX_SHOW1);
         Matcher show1Matcher = show1Pattern.matcher(thisFile.getName());
 
-        Pattern show2Pattern = Pattern.compile(REGEX_SHOW2, REGEX_MASK);
+        Pattern show2Pattern = Pattern.compile(REGEX_SHOW2);
         Matcher show2Matcher = show2Pattern.matcher(thisFile.getName());
 
-        Pattern moviePattern = Pattern.compile(REGEX_MOVIE, REGEX_MASK);
+        Pattern moviePattern = Pattern.compile(REGEX_MOVIE);
         Matcher movieMatcher = moviePattern.matcher(thisFile.getName());
 
         TFile newFile = null;
     
         // Show1
         if(show1Matcher.matches()) {
-
             String title = show1Matcher.group(1).replace(".", " ");
             title = title.replace("  ", " ");
             title = title.trim();
@@ -207,7 +212,6 @@ public class Torrganizer
 
         // Show1
         else if(show2Matcher.matches()) {
-
             String title = show2Matcher.group(1).replace(".", " ");
             title = title.replace("  ", " ");
             title = title.trim();
@@ -224,7 +228,6 @@ public class Torrganizer
 
         // Movie
         else if(movieMatcher.matches()) {
-
             String title = movieMatcher.group(1).replace(".", " ");
             title = title.replace("  ", " ");
             title = title.trim();
