@@ -106,6 +106,18 @@ public class TFile
     public boolean isMovie() { return false; }
     public boolean isShow()  { return false; }
 
+    //===============================================================
+    //      toString
+    //===============================================================
+    
+    public String toString()
+    {
+        String returnVal = "fileName:\t"    + fileName       + "\n" +
+                           "currentName:\t" + file.getName() + "\n" +
+                           "extension:\t"   + fileExtension  + "\n";
+        return returnVal;
+
+    }
 
 
 

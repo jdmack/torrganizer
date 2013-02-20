@@ -192,6 +192,15 @@ public class CLInterface //implements TorrInterface
         System.out.println("Error processing file");
     }
 
+    public void outputObject(TFile thisFile)
+    {
+        System.out.println(thisFile.toString());
+    }
+
+    public void outputDebug(String message)
+    {
+        System.out.println("[DEBUG] " + message);
+    }
 
     //===============================================================
     //      getters / setters

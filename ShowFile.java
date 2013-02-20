@@ -88,5 +88,18 @@ public class ShowFile extends TFile
 
     public boolean isShow() { return true; }
 
+    //===============================================================
+    //      toString
+    //===============================================================
+
+    public String toString()
+    {
+        String returnVal = super.toString() + 
+                           "showTitle:\t"   + showTitle     + "\n" +
+                           "seasonNum:\t"   + seasonNumber  + "\n" +
+                           "episodeNum::\t" + episodeNumber + "\n";
+        return returnVal;
+    }
+
 
 }

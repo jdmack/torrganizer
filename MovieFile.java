@@ -55,4 +55,15 @@ public class MovieFile extends TFile
 
     public boolean isMovie() { return true; }
 
+    //===============================================================
+    //      toString
+    //===============================================================
+
+    public String toString()
+    {
+        String returnVal = super.toString() + 
+                           "releaseYear:\t" + releaseYear + "\n";
+        return returnVal;
+    }
+
 }
