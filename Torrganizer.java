@@ -41,6 +41,8 @@ public class Torrganizer
     private static final String REGEX_SHOW2     = "(?i)([a-zA-Z0-9\\.\\ ]+)(\\d\\d\\d).*\\.(mp4|mpeg4|avi|mkv|wmv|mov)";
     private static final String REGEX_MOVIE     = "(?i)([a-zA-Z0-9\\.\\ ]+).*[\\(|\\]]?(19|20\\d\\d)[\\(|\\]]?.*\\.(mp4|mpeg4|avi|mkv|wmv|mov)";
 
+
+
     /*
         ([a-zA-Z0-9\.\ ]+)S(\d\d)E(\d\d).*\.(mp4|mpeg4|avi|mkv|wmv|mov)
         ([a-zA-Z0-9\.\ ]+)(\d\d\d).*\.(mp4|mpeg4|avi|mkv|wmv|mov)
@@ -77,6 +79,10 @@ public class Torrganizer
         allFiles = processDirectory(homeDir);
     }
 
+    //===============================================================
+    //      processDirectory
+    //===============================================================
+
     public static Vector<TFile> processDirectory(File thisDir)
     {
         userInterface.outputProcessingDirectory(thisDir.getName()); 
@@ -102,7 +108,6 @@ public class Torrganizer
 
         return allFiles;
     }
-
 
     //===============================================================
     //      processFile
