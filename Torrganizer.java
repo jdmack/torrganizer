@@ -163,15 +163,20 @@ public class Torrganizer
 
         File newFile = new File(newAbsoluteName);
         userInterface.outputFileAttemptRename(newFile.getPath());
-        boolean result = thisTFile.getFile().renameTo(newFile);
 
-        if(result) {
-            userInterface.outputFileRenameSuccess();
-            thisTFile.setFile(newFile);
-        }
-        else {
-            // TODO: Should probably do something about error here
-            userInterface.outputFileRenameError();
+        if(userInterface.getPerformAction()) {
+
+            // Rename Action
+            boolean result = thisTFile.getFile().renameTo(newFile);
+
+            if(result) {
+                userInterface.outputFileRenameSuccess();
+                thisTFile.setFile(newFile);
+            }
+            else {
+                // TODO: Should probably do something about error here
+                userInterface.outputFileRenameError();
+            }
         }
     
         Vector<TFile> returnVector = new Vector<TFile>();

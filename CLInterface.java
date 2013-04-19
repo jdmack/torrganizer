@@ -117,6 +117,19 @@ public class CLInterface //implements TorrInterface
         return strInput.nextLine();
     }
 
+    public boolean getPerformAction()
+    {
+        System.out.print("Perform Action (y/n)? ");
+
+
+        if(!strInput.nextLine().startsWith("n")) {
+            System.out.println("Skipping action");
+            return false;
+        }
+
+        return true;
+    }
+
 
     //===============================================================
     //      Output Methods
