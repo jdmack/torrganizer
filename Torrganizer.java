@@ -102,7 +102,7 @@ public class Torrganizer
         }
 
         Vector<TFile> allFiles = new Vector<TFile>();
-        TFileCompare comparator = new TFileCompare();
+        //TFileCompare comparator = new TFileCompare();         // Ignore this
         Collections.sort(allFiles);
         
         // Print
