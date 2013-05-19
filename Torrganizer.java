@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import java.util.Vector;
 import java.util.Scanner;
 import java.util.Collections;
+import java.util.Arrays;
 
 // Classes
 //import TFile;
@@ -88,9 +89,11 @@ public class Torrganizer
     {
         userInterface.outputProcessingDirectory(thisDir.getName()); 
 
-        File [] files = thisDir.listFiles();
+        Vector<File> files = new Vector<File>();
 
-        if(files.length <= 0) {
+        files.addAll(Arrays.asList(thisDir.listFiles()));
+
+        if(files.size() <= 0) {
             userInterface.outputDirectoryEmpty(thisDir.getName());
             return new Vector<TFile>();
         }
@@ -102,14 +105,8 @@ public class Torrganizer
         }
 
         Vector<TFile> allFiles = new Vector<TFile>();
-        //TFileCompare comparator = new TFileCompare();         // Ignore this
-        Collections.sort(allFiles);
+        Collections.sort(files);
         
-        // Print
-        for(File thisFile: files) {
-            System.out.println(thisFile);
-        }
-
         for(File thisFile: files) {
             allFiles.addAll(processFile(thisFile));
         }
