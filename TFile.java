@@ -8,7 +8,7 @@
 import java.io.File;
 
 
-public class TFile
+public class TFile implements Comparable<TFile>
 {
     //===============================================================
     //      Constants
@@ -28,7 +28,7 @@ public class TFile
 
     public TFile(File file, String name, String extension)
     {
-        this.file          = file;
+        this.file     = file;
         fileName      = name;
         fileExtension = extension;
     }
@@ -117,6 +117,11 @@ public class TFile
                            "extension:\t"   + fileExtension  + "\n";
         return returnVal;
 
+    }
+
+    public int compareTo(TFile file)
+    {
+        return fileName.compareToIgnoreCase(file.getFileName());
     }
 
 

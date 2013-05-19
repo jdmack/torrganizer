@@ -117,12 +117,18 @@ public class CLInterface //implements TorrInterface
         return strInput.nextLine();
     }
 
+    public String getEpisodeTitle()
+    {
+        System.out.print("Enter episode title: ");
+        return strInput.nextLine();
+    }
+
     public boolean getPerformAction()
     {
         System.out.print("Perform Action (y/n)? ");
 
 
-        if(!strInput.nextLine().startsWith("n")) {
+        if(strInput.nextLine().startsWith("n")) {
             System.out.println("Skipping action");
             return false;
         }

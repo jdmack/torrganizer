@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Vector;
 import java.util.Scanner;
+import java.util.Collections;
 
 // Classes
 //import TFile;
@@ -101,6 +102,13 @@ public class Torrganizer
         }
 
         Vector<TFile> allFiles = new Vector<TFile>();
+        TFileCompare comparator = new TFileCompare();
+        Collections.sort(allFiles);
+        
+        // Print
+        for(File thisFile: files) {
+            System.out.println(thisFile);
+        }
 
         for(File thisFile: files) {
             allFiles.addAll(processFile(thisFile));
@@ -205,17 +213,33 @@ public class Torrganizer
 
         TFile newFile = null;
     
+        // Movie
+        if(movieMatcher.matches()) {
+            String title = movieMatcher.group(1).replace(".", " ");
+            title = title.replace("  ", " ");
+            title = title.trim();
+
+            int year = Integer.parseInt(movieMatcher.group(2));
+
+            String extension = movieMatcher.group(3);
+            String name = title + " (" + String.format("%4d", year) + ")." + extension;
+
+            newFile = new MovieFile(thisFile, name, extension, year);
+        }
+
         // Show1
-        if(show1Matcher.matches()) {
+        else if(show1Matcher.matches()) {
             String title = show1Matcher.group(1).replace(".", " ");
             title = title.replace("  ", " ");
             title = title.trim();
 
             int season = Integer.parseInt(show1Matcher.group(2));
             int episode = Integer.parseInt(show1Matcher.group(3));
+            
+            String episodeTitle = userInterface.getEpisodeTitle();
 
             String extension = show1Matcher.group(4);
-            String name = title + " - S" + String.format("%02d", season) + "E" + String.format("%02d", episode) + "." + extension;
+            String name = title + " - S" + String.format("%02d", season) + "E" + String.format("%02d", episode) + " - " + episodeTitle + "." + extension;
 
             newFile = new ShowFile(thisFile, name, extension, season, episode, title);
         }
@@ -230,24 +254,12 @@ public class Torrganizer
             int episode = episodeNumber % 100;
             int season = (episodeNumber / 100) % 10;
 
+            String episodeTitle = userInterface.getEpisodeTitle();
+
             String extension = show2Matcher.group(3);
-            String name = title + " - S" + String.format("%02d", season) + "E" + String.format("%02d", episode) + "." + extension;
+            String name = title + " - S" + String.format("%02d", season) + "E" + String.format("%02d", episode) + " - " + episodeTitle + "." + extension;
 
             newFile = new ShowFile(thisFile, name, extension, season, episode, title);
-        }
-
-        // Movie
-        else if(movieMatcher.matches()) {
-            String title = movieMatcher.group(1).replace(".", " ");
-            title = title.replace("  ", " ");
-            title = title.trim();
-
-            int year = Integer.parseInt(movieMatcher.group(2));
-
-            String extension = movieMatcher.group(3);
-            String name = title + " (" + String.format("%4d", year) + ")." + extension;
-
-            newFile = new MovieFile(thisFile, name, extension, year);
         }
 
         else if(extensionMatcher.matches()) {

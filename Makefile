@@ -3,6 +3,7 @@ SOURCE = Torrganizer.java \
 	TFile.java \
 	MovieFile.java \
 	ShowFile.java \
+	TFileCompare.java \
 	CLInterface.java
 
 all: $(SOURCE)
