@@ -1,5 +1,15 @@
 Torrganizer
 ===========
-Java program to rename and move legitimate torrent downloads.
+Java program to rename and organize downloads.
 
-The command line version of this works for the basics. I still have lots of features planned including a GUI. Will be returning to the project as time allows.
+Finally added a basic Swing gui. The CLI is currentky broken as I didn't bother to make both usable right now.
+
+### ToDo
+ * Add properties file to save config values
+ * Add options checkboxes
+     - Add Show Episode Title
+     - Confirm Actions
+     - Extensions to Skip
+ * Combine dialogs for manual entry
+ * Check if multiple patterns match and handle it
+
