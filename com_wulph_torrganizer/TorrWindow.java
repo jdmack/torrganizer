@@ -148,6 +148,12 @@ public class TorrWindow {
 		button_run.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(homeDir == null) {
+					homeDir = new File("D:\\workspace-java\\torrganizer\\homeDir");
+				}
+				if(destDir == null) {
+					destDir = new File("D:\\workspace-java\\torrganizer\\sortDir");
+				}
 				Torrganizer.run(textArea_output, homeDir, destDir);
 			}
 		});

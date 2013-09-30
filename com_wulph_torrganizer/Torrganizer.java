@@ -159,7 +159,8 @@ public class Torrganizer
         File newFile = new File(newAbsoluteName);
         userInterface.outputFileAttemptRename(newFile.getPath());
 
-        if(userInterface.getPerformAction()) {
+        //if(userInterface.getPerformAction()) {
+        if(userInterface.getPerformAction("Rename/Move file to:\n\n " + newFile.getPath() + "\n\nProceed?")) {
 
             // Rename Action
             boolean result = thisTFile.getFile().renameTo(newFile);

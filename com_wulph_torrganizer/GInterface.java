@@ -152,14 +152,36 @@ public class GInterface //implements TorrInterface
         		null,
         		"Perform Action?",
         	    "Yo", 
-        	    JOptionPane.YES_NO_OPTION,
+        	    JOptionPane.YES_NO_CANCEL_OPTION,
         	    JOptionPane.QUESTION_MESSAGE);
 
-        if(answer == JOptionPane.NO_OPTION) {
+        if(answer == JOptionPane.CANCEL_OPTION) {
+        	System.exit(0);
+        }
+        else if(answer == JOptionPane.NO_OPTION) {
             outputTextArea.append("Skipping action\n");
             return false;
         }
 
+        return true;
+    }
+
+    public boolean getPerformAction(String actionMessage)
+    {
+        int answer = JOptionPane.showConfirmDialog(
+        		null,
+        		actionMessage,
+        	    "", 
+        	    JOptionPane.YES_NO_CANCEL_OPTION,
+        	    JOptionPane.QUESTION_MESSAGE);
+
+        if(answer == JOptionPane.CANCEL_OPTION) {
+        	System.exit(0);
+        }
+        else if(answer == JOptionPane.NO_OPTION) {
+            outputTextArea.append("Skipping action\n");
+            return false;
+        }
         return true;
     }
 
