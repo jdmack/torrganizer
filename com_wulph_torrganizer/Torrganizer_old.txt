@@ -1,3 +1,4 @@
+package com_wulph_torrganizer;
 //=============================================================================
 // Torrganizer
 //
@@ -15,7 +16,6 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Vector;
-import java.util.Scanner;
 import java.util.Collections;
 import java.util.Arrays;
 
@@ -59,7 +59,7 @@ public class Torrganizer
     //      main
     //===============================================================
 
-    public static void main(String [] args)
+    public static void main_blah(String [] args)
     {
         userInterface = new CLInterface();
         String inputStr;

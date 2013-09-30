@@ -1,5 +1,7 @@
 files
 Sort
+homeDir
+sortDir
 filenames.txt
 createFiles.sh
 *.class

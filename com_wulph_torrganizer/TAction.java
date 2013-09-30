@@ -1,3 +1,4 @@
+package com_wulph_torrganizer;
 //=============================================================================
 // TAction.java
 //=============================================================================
@@ -5,7 +6,6 @@
 //===============================
 // Imports
 //===============================
-import java.io.File;
 
 
 public class TAction
@@ -43,12 +43,12 @@ public class TAction
     //      file
     //=================================
 
-    public File getFile()
+    public TFile getFile()
     {
         return file;
     }
 
-    public void setFile(File file)
+    public void setFile(TFile file)
     {
         this.file = file;
     }
@@ -105,9 +105,9 @@ public class TAction
     {
         String actionString = "";
 
-        if(action.equals("move")
+        if(action.equals("move"))
             actionString = "Move";
-        else if(action.equals("rename")
+        else if(action.equals("rename"))
             actionString = "Rename";
 
         String returnVal = actionString + " " + current + " to " + destination;
